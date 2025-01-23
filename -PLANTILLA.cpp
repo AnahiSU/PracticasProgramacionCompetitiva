@@ -6,10 +6,9 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
 #define srt(a) sort(a.begin(),a.end());
 #include <bits/stdc++.h>
-
+#define int long long
 
 using namespace std;
 
