@@ -1,0 +1,46 @@
+/*
+- Deja ir el pasado y camina hacia el futuro.
+- El trabajo duro supera al talento cuando el talento no trabaja duro.
+- Del fracaso se aprende, del éxito no mucho.
+- Para sentirse vivo se necesita una meta en la que trabajar.
+- ¡Demonios Rocky! No hay ningún mañana.
+*/
+
+typedef long long ll;
+#define srt(a) sort(a.begin(),a.end());
+#include <bits/stdc++.h>
+
+
+using namespace std;
+
+
+signed main (){
+	std::ios::sync_with_stdio(false);cin.tie(0);
+	int n; cin>>n;
+	int nums [] = {1,5,10,20,100};
+	while(n>0){
+		int aux = n/nums[i];
+		int aux2 = aux*nums[i];
+		n-=aux2;
+	}
+    return 0;
+}
+
+//                   :-==-.                     .:..                   
+//                .+%@@@@@@#-                -*%@@@@#+.                            
+//              .%@@@@@@@@@@%*=--:.....::--+#@@@@@@@@@@@=              
+//              +@@@@@@@%*-.                 .-*%@@@@@@@%              
+//              +@@@@@%=.                       .=%@@@@@@.             
+//              -@@@@*.                           .+@@@@%              
+//               +@@+    ..                         =@@%:              
+//                -*  :*%@@@*.             :+#%#+.   +#:               
+//                =. =@@@*=+@%            :%@##@@@+  .+                
+//                + -@@@@.  #@:  :-----   *@=  +@@@+  +                
+//               .+ #@@@@#+*@%.  *@@@@%.  +@#:-#@@@@: =.               
+//               .=  @@@@@@@@+    .=*:     :@@@@@@@@= -:                 
+//                + :**%@%*:     .-=+--     :#@@%**+  +                
+//                +.---:.                     .----- .=               
+//                 :=                               +.                 
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

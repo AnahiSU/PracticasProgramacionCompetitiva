@@ -74,7 +74,7 @@ signed main (){
         cin>>v[i];
         sg.update(i,v[i]);   
     }
-    int score = -1e9+1;z
+    int score = -1e9+1;
     for(int i = 0; i<n; i++){
         int maxi = sg.query(i,i+m);
         score = max(maxi - v[i],score);

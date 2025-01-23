@@ -31,27 +31,6 @@ signed main (){
     while(cin>>c && c){
        ll res2 = 1e18+1;
         for(int i = 0; i<(int)v.size();i++){
-       /*     int lo = 0,hi=(int)v3.size()-1;
-            int mid = 0;
-            int x = c-v[i]; 
-            cout<<"para: "<<v[i]<<" x: "<<x<<endl;
-            if(x>=v[i]){
-                while(lo<=hi){
-                    mid = (lo+hi)/2;
-                    if(v3[mid]+v[i] >= c){
-                        cout<<"mid: "<< v3[mid]<<" lo: "<<v3[lo]<<" hi: "<<v3[hi]<<endl;
-                        bst = min(bst,v3[mid]+v[i]);
-                        hi = mid-1;
-                    }else{
-                        if(v3[mid] < x){
-                            lo = mid+1;
-                        }else{
-                            hi = mid-1;
-                        }
-                    }
-                }
-            }*/
-            
            ll res = (c+v[i]-1)/v[i];
            if(v[i]>c){
              res2 = min(res2,v[i]);

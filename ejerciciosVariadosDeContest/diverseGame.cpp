@@ -1,4 +1,5 @@
-/*
+
+a/*
 -Si todos aceptaran el primer "no", el mundo sería un gran silencio.
 - El trabajo duro supera al talento cuando el talento no trabaja duro.
 - Los desafios son los que hacen la vida interesante y superarlos es

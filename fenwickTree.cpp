@@ -43,26 +43,7 @@ struct BIT { // 1-indexed, your first element of the array is at index 1
 
 signed main (){
     ios::sync_with_stdio(false);cin.tie(0);
-    int n,q; cin>>n>>q;
-    BIT bit(n+1);
-    vector<int>v(n);
-    for(int i =0;i<n; i++){
-        int x; cin>>x;
-        bit.add(i+1,x);
-        v[i] = x;
-    }
-
-    for(int i =0; i<q; i++){
-        int qw; cin>>qw;
-        if(qw == 1){
-
-        }else{
-            int x, v; cin>>x>>v;
-            bit.set(x,v);
-            bit.set(x*x*v[x-1],v);
-            bit.set(x*v[x-1],v);
-        }
-    }
+    
 
 
     return 0;

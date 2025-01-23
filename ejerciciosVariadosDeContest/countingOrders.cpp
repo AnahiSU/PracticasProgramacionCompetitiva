@@ -9,8 +9,7 @@
 */
     
 typedef long long ll;
-#define srt(a) sort((a).begin(),(a).end());
-#define srtR(a) sort((a).rbegin(),(a).rend());
+#define srt(a) sort((a).begin(),(a).end()()#define srtR(a) sort((a).rbegin(),(a).rend());
     
 #include <bits/stdc++.h>
 using namespace std;

@@ -63,14 +63,11 @@ signed main (){
         if(ord.size()<1){
             cout<<-1<<endl;
         }else{
-            //simulacion
-            //printVec(ord);
             for(int i = 0; i<N;i++){
                 if(!visi[i]){
                     noVisi.push_back(dulc[i]);
                 }
             }
-            //printVec(noVisi);
             int j = 1;
             int i = 0;
             int alice = 0,bob = 0;
@@ -81,18 +78,13 @@ signed main (){
                     res.push_back(noVisi[i]);
                     bob+=noVisi[i];
                     i++;
-                    // cout<<"Alice: "<<alice<<endl;
-                    // cout<<"Bob: "<<bob<<endl;
+
                 }else{
                     res.push_back(ord[j]);
                     alice+=ord[j];
                     j++;
-                    // cout<<"Alice: "<<alice<<endl;
-                    // cout<<"Bob: "<<bob<<endl;
                 }
             }
-            // cout<<j<<" "<<i<<endl;
-            // cout<<ord.size()<<" "<<noVisi.size()<<endl;
             if(j >= ord.size()){
                 while(i<noVisi.size()){
                     res.push_back(noVisi[i]);
@@ -104,7 +96,6 @@ signed main (){
                     j++;
                 }
             }
-
             for(int i:res){
                 cout<<i<<" ";
             }
@@ -112,9 +103,7 @@ signed main (){
         }
     }else{
         cout<<-1<<endl;
-    }
-
-  
+    }  
     return 0;
 }
 

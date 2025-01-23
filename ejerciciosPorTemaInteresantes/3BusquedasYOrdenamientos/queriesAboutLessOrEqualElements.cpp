@@ -48,7 +48,7 @@ signed main (){
             }
         }
         if(res!=-1) cout<<res+1<<" ";
-        else cout<<0;
+        else cout<<0<<" ";
     }
     cout<<endl;
 
