@@ -15,21 +15,34 @@ using namespace std;
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
-	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
+	int c; cin>>c;
+	while(c--){
+		int n; cin>>n;
+		vector<int>v(n);
+		for(int i = 0; i<n;i++){
+			cin>>v[i];
+		}
+		vector<int>v2(n+1);
+		for(int i =0; i<n+1;i++){
+			cin>>v2[i];
+		}
 
-	cout<<setprecision(10)<<res<<endl;
+		int piv = v2[n];
+		int cont = 0;
+		int aux = 1e9;
+		bool flag = 1;
+		for(int i = 0;i<n;i++){
+			cont+=abs(v2[i]-v[i]);
+
+			if(v[i]<=piv && v2[i]>=piv ||v2[i]<=piv && v[i]>=piv){
+				aux=min(aux,1ll);
+			}else{
+				aux = min(aux,min(abs(piv-v2[i])+1,abs(v[i]-piv)+1));
+			}
+		}
+		
+		cout<<aux+cont<<endl;	
+	}
     return 0;
 }
 
@@ -48,5 +61,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

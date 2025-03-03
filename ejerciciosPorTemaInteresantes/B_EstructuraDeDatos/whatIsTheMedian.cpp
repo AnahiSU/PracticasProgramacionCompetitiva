@@ -15,21 +15,18 @@ using namespace std;
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
+	int x;
+	vector<int>v;
+	while(cin>>x){
+		v.push_back(x);
+		int n = v.size();
+		srt(v);
+		if(n%2==0){
+			cout<<(v[n/2] + v[(n/2)-1])/2<<endl;
+		}else{
+			cout<<v[n/2]<<endl;
+		}
 	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
-
-	cout<<setprecision(10)<<res<<endl;
     return 0;
 }
 
@@ -48,5 +45,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

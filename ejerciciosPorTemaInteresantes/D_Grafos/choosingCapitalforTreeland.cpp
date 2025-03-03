@@ -11,25 +11,73 @@
 #define int long long
 
 using namespace std;
+vector<vector<pair<int,int>>> gB;
+vector<bool>visi;
+vector<int>cont;
 
+int dfs(int v){
+	visi[v] =true;
+	int res = 0;
+
+	for(auto hijo : gB[v]){
+		int u = hijo.first;
+		int dir = hijo.second;
+		if(!visi[u]){
+			res+=dfs(u);
+			if(dir == -1){
+				res++;
+			}
+		}
+	}
+	
+	return res;
+}
+
+void calcDP(int v){
+	visi[v] = true;
+	for(auto hijo : gB[v]){
+		int u = hijo.first;
+		int dir = hijo.second;
+		if(visi[u]) continue;
+		cont[u] = cont[v];
+		if(dir == 1){
+			cont[u]++;
+		}else{
+			cont[u]--;
+		}
+		calcDP(u);
+	}
+}
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
+	int n; cin>>n;
+	gB.resize(n);
+	visi.resize(n);
+	for(int i =0;i<n-1;i++){
+		int a,b; cin>>a>>b;
+		a--;b--;
+		gB[a].push_back({b,1});
+		gB[b].push_back({a,-1});
 	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
+	cont.resize(n);
+	
+	cont[0] = dfs(0);
 
-	cout<<setprecision(10)<<res<<endl;
+	int mini = 1e9;
+	
+	visi.assign(n,false);
+
+	calcDP(0);
+	
+	for(int i = 0;i<n;i++){
+		mini = min(mini,cont[i]);
+	}
+	cout<<mini<<endl;
+	for(int i = 0;i<n;i++){
+		if(cont[i]==mini) cout<<i+1<<" ";
+	}
+
     return 0;
 }
 
@@ -48,5 +96,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

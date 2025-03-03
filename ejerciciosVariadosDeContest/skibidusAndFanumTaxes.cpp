@@ -15,21 +15,53 @@ using namespace std;
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
-	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
+	int c; cin>>c;
+	while(c--){
+		int n,m; cin>>n>>m;
+		
+		vector<int>v(n);
+		vector<int>b(m);
+		for(int i = 0; i<n;i++){
+			cin>>v[i];
+		}
+		for(int i = 0; i<m;i++){
+			cin>>b[i];
+		}
+		srt(b);
+		int ant = -1e9+1;
+		bool flag =1;
+		for(int i = 0; i<n;i++){
+			int l=-1,r=m;
+			while(r-l > 1){
+				int mid = (l+r)/2;
+				if(b[mid] - v[i] >= ant){
+					r = mid;
+				}else{
+					l = mid;
+				}
+			}
+			if(r>=m || r<0){
+				ant = v[i];
+				continue;
+			}
+			if (((b[r] - v[i] < v[i]) && (b[r] - v[i] >= ant)) || (v[i] < ant && b[r] - v[i] >= ant)) {
+        		v[i] = b[r] - v[i];
+      		}
+        	ant = v[i];
+		}
 
-	cout<<setprecision(10)<<res<<endl;
+
+		for(int i=0; i<n-1;i++){
+
+			if(v[i]>v[i+1]){
+				flag =0;
+			}
+		}
+
+
+		(flag) ? cout<<"YES" : cout<<"NO";
+		cout<<endl;
+	}
     return 0;
 }
 
@@ -48,5 +80,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

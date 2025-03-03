@@ -6,31 +6,44 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
+#define endl "\n"
 #define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
+bool cmp (pair<string,pair<int,pair<int,int>>>a,pair<string,pair<int,pair<int,int>>>b){
+   if(a.second.second.second > b.second.second.second){
+      return true;
+   }else if(a.second.second.second < b.second.second.second){
+      return false;
+   }else if(a.second.second.first > b.second.second.first){
+      return true;
+   }else if(a.second.second.first < b.second.second.first){
+      return false;
+   }else if(a.second.first > b.second.first){
+      return true;
+   }else{
+      return false;
+   }
+}
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
-	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int n; cin>>n;
+   vector<pair<string,pair<int,pair<int,int>>>>v(n);
+   for(int i = 0; i<n;i++){
+      string s; int m,d,a; cin>>s>>d>>m>>a;
+      v[i] = {s,{d,{m,a}}};
+   }
+   sort(v.begin(),v.end(),cmp);
 
-	cout<<setprecision(10)<<res<<endl;
-    return 0;
+   cout<<v[0].first<<endl<<v[n-1].first<<endl;
+
+
+   return 0;
 }
 
 //                   :-==-.                     .:..                   
@@ -48,5 +61,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

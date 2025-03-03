@@ -15,21 +15,66 @@ using namespace std;
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
-	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
+	int c; cin>>c;
+	while(c--){
+		int n; cin>>n;
+		map<int,int>ls;
+		vector<int>v(n);
+		for(int i =0;i<n;i++){
+			cin>>v[i];
+			ls[v[i]]++;
+		}
+		int l=0,r=0;
+		int k = ls.size();
+		int tam = n;
+		int maxL=-1,maxR=-1;
+		int score = n-k;
+		int ult = 0;
+		int frec = ls[v[0]];
+		while(r<n&&l<n){
+			cout<<l<<' '<<r<<endl;
+			tam--;
+			if(frec > 1){
+				if(score<= tam-k){
 
-	cout<<setprecision(10)<<res<<endl;
+					maxL = l;
+					maxR = r;
+					r++;
+					frec = ls[v[r]];
+				}else{
+					tam++;
+					if(l==r){
+						l++;r++;
+					}else{
+						l++;
+					}
+					frec = ls[v[l]];
+				}
+			}else{
+				k--;
+				if(score <= tam-k){
+					maxL = l;
+					maxR = r;
+					r++;
+					frec = ls[v[r]];
+				}else{
+					tam++;
+					k++;
+					if(l==r){
+						l++;
+						r++;
+					}else{
+						l++;
+					}
+					frec = ls[v[l]];
+				}
+			}
+		
+		}		
+		
+		if(maxL == -1 && maxR == -1) cout<<0<<endl;
+		else cout<<maxL+1<<" "<<maxR+1<<endl;
+	}
     return 0;
 }
 
@@ -48,5 +93,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

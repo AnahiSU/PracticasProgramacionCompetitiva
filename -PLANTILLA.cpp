@@ -6,17 +6,19 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
+#define endl "\n"
 #define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
+   std::ios::sync_with_stdio(false);cin.tie(0);
 
-    return 0;
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

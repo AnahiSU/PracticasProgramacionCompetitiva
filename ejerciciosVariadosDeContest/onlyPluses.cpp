@@ -23,15 +23,7 @@ signed main (){
     srt(v);
     int pasos = 5;
     for(int i = 0; i<pasos;i++){
-        if(v[0] <= v[1] & v[0] <= v[2]){
-            v[0]++;
-        }else{
-            if(v[1] <= v[0] && v[1] <= v[2]){
-                v[1]++;
-            }else{
-                v[2]++;
-            }
-        }
+		v[0]++;
         srt(v);
     }
     

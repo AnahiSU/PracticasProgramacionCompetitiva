@@ -15,21 +15,52 @@ using namespace std;
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
+	
+	int n, m;
+	cin >> n >> m;
+	int l;
+	cin >> l;
+	vector<bool> bulbs(m);
+	int a;
+	while (l--) {
+		cin >> a;
+		a--;
+		bulbs[a] = true;
 	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
+	vector<bool> init(bulbs);
+	vector<vector<int>> g(n);
+	for (int i = 0; i < n; i++) {
+		int k;
+		cin >> k;
+		for (int j = 0; j < k; j++) {
+			cin >> a;
+			a--;
+			g[i].push_back(a);
+		}
 	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
-
-	cout<<setprecision(10)<<res<<endl;
+	int ans = 0;
+	bool f = true;
+	int q = 0;
+	while (f) {
+		bool ok = false;
+		for (int i = 0; i < m; i++) {
+			ok |= bulbs[i];
+		}
+		if (!ok) break;
+		for (int& a : g[q]) {
+			bulbs[a] = !bulbs[a];
+		}
+		ans++;
+		if (q == n - 1) {
+			if (bulbs == init) f = false;
+		}
+		q = (q + 1) % n;
+	}
+	if (!f) {
+		cout << -1 << '\n';
+	} else {
+		cout << ans << '\n';
+	}
     return 0;
 }
 
@@ -48,5 +79,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+

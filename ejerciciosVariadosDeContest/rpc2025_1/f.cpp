@@ -12,24 +12,51 @@
 
 using namespace std;
 
+const int INF = 1e9;
+
+int n;
+int memo[11][1001];
+int dp(int last, auto& stage, int c_stage, int sum, int k) {
+	if (memo[c_stage][sum] != -1) {
+		return memo[c_stage][sum];
+	}
+	if (c_stage >= n) {
+		return 0;
+	}
+	memo[c_stage][sum] = -INF; // por si no toma ningun 
+	for (auto& v : stage) { // anadir otro parametro k para controlar el show del stage
+		for (auto& p : v) {
+			int a, b, c;
+			a = p.first.first;
+			b = p.first.first;
+			c = p.second;
+			if (a >= last) {
+				memo[c_stage][sum] = max(dp(), dp(last, stage, c_stage, sum));
+			}
+		}
+	}
+	return memo[c_stage][sum];
+} 
 
 signed main (){
 	std::ios::sync_with_stdio(false);cin.tie(0);
-	int n,l; cin>>n>>l;
-	vector<double>v(n);
-	for(int i = 0; i<n;i++){
-		cin>>v[i];
-	}
-	srt(v);
-	double res = v[0] - 0;
-	for(int i = 0;i<n-1;i++){
-		double aux = (v[i+1]-v[i])/2;
-		res = max(res, aux);
-	}
-	double aux = (l-v[n-1]);
-	res = max(res,aux);
 
-	cout<<setprecision(10)<<res<<endl;
+	cin >> n;
+
+	vector<vector<pair<pair<int, int>, int>>> stage(n);
+	for (int i = 0; i < n; i++) {
+		int m;
+		cin >> m;
+		int a, b, c;
+		for (int j = 0; j < m; j++) {
+			cin >> a >> b  >> c;
+			stage[i].push_back({{a, b}, c});
+		}
+	}
+	memset(memo, -1, sizeof memo);
+	int ans = dp(0, stage, 0, 0, 0);
+	cout << ans << '\n';
+
     return 0;
 }
 
@@ -48,5 +75,6 @@ signed main (){
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
 //                +.---:.                     .----- .=               
 //                 :=                               +.                 
-//                    :=-.                     .-=:                                     
-//                         .:-----------:.   
+//                    :=-.                     .-=:                                         
+//                           .:-----------:.   
+
