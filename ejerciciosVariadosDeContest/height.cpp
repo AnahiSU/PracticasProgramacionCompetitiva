@@ -6,40 +6,43 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
+int insertionSort(auto& arr, int n){
+   int cont = 0;
+   for (int i = 1; i < n; ++i) {
+      int key = arr[i];
+      int j = i - 1;
 
+      while (j >= 0 && arr[j] > key) {
+         arr[j + 1] = arr[j];
+         j = j - 1;
+         cont++;
+      }
+      arr[j + 1] = key;
+   }
+   return cont;
+}
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
-      vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
-      }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
-      }
-      for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
-      }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int c; cin>>c;
+   int cont = 0;
+   while(c--){
+      int cont = 0;
+      cin>>cont;
+      cout<<cont<<" ";
+      vector<int>v(20);
+      for(int i = 0; i<20; i++) cin>>v[i];
+      cout<<insertionSort(v,20);
+      cout<<endl;
+   }
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

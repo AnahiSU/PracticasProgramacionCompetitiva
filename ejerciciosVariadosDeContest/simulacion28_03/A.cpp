@@ -6,40 +6,44 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
-      vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   string s1,s2; cin>>s1>>s2;
+   int n = sz(s1), n2 = sz(s2);
+   map<char,set<int>> ls;
+   for(int i = 0; i<n; i++){
+      ls[s1[i]].insert(i+1);
+   }
+   vector<int>lista(n2);
+   lista[0] = *(ls[s2[0]].begin());
+   for(int i = 1; i<n2; i++){
+      auto pos = ls[s2[i]].upper_bound(lista[i-1]);
+      if(pos != ls[s2[i]].end()){
+         lista[i] = *pos;
+      }else{
+         lista[i] = *(ls[s2[i]].begin());
       }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
-      }
-      for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
-      }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+   }
+
+   int res = 1;
+
+   for(int i = 1; i<sz(lista);i++){
+      if(lista[i] <= lista[i-1]){
+         res++;
+      } 
+   }
+   cout<<res<<endl;
+
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

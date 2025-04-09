@@ -6,40 +6,53 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
+vector<int> find_divisors(int n) {
+   vector<int> v;
+  
+   for (int i = 1; n >= i*i; i++) {
+      if (n % i == 0) {
+         v.push_back(i);
+         int other = n / i;
+         if (other != i) { // case i * i = n
+            v.push_back(other);
+         }
+      }
+   }
+   return v;
+}
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
-      vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
+   std::ios::sync_with_stdio(false);cin.tie(0);
+
+   int c; cin>>c;
+   while(c--){
+      int n,k; cin>>n>>k;
+      if(k == 1 && n == 1){
+         cout<<"NO"<<endl;
+      }else if(k == 2 & n == 1){
+         cout<<"YES"<<endl;
+      }else{
+         if(k>1){
+            cout<<"NO"<<endl;
+         }else{
+            vector<int>v = find_divisors(n);
+            if(sz(v) > 2){
+               cout<<"NO"<<endl;
+            }else{
+               cout<<"YES"<<endl;
+            }
+         }
       }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
-      }
-      for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
-      }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+   }
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

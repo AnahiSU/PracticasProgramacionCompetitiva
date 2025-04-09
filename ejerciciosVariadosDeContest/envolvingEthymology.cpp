@@ -6,40 +6,36 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
-
+int binpow(int a, int b, int n) {
+    int res = 1;
+    a = a % n; 
+    while (b > 0) {
+        if (b & 1)
+            res = (res * a) % n;  
+        
+        a = (a * a) % n;
+        b >>= 1;
+    }
+    return res;
+}
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
-      vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
-      }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
-      }
-      for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
-      }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int n, k; cin>>n>>k;
+   string s; cin>>s;
+   string res = s;
+   for(int i = 0; i<n;i++){
+      res[i] = s[(i*binpow(2,k,n))%n];
+   }
+   cout<<res<<endl;
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

@@ -6,40 +6,37 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int c; cin>>c;
+   while(c--){
+      int n; cin>>n;
       vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
+      if(!(n&1)){
+         cout<<-1<<endl;
+         continue;
       }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
-      for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
-      }
+      int cont = n - (n/2); 
       for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
+         v[i] = (i+1 + (cont%n))%n;
+         if(v[i] == 0) v[i] = n;
+         cont++;
       }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+      for(int i : v){
+         cout<<i<<" ";
+      }
+      cout<<endl;
+   }
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

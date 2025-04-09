@@ -6,40 +6,45 @@
 - ¡Demonios Rocky! No hay ningún mañana.
 */
 
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
 
 using namespace std;
 
 
 signed main (){
-	std::ios::sync_with_stdio(false);cin.tie(0);
-	int c; cin>>c;
-	
-	while(c--){
-		
-		int n; cin>>n;
-      vector<int>v(n);
-      for(int i = 0; i<n;i++) cin>>v[i];
-      int maxi = -1;
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int c; cin>>c;
+   while(c--){
+      int n; cin>>n; 
+      string s1,s2; cin>>s1>>s2;
+      vector<int>aux1(n),aux2(n);
+
+      bool flag = 1;
       for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[(i+n-1)%n] - v[i]);
+         //me da flojera contar solo 0's
+         if(flag) aux1[i] = (s1[i] == '1' ? 0 : 1);
+         else aux1[i] = (s2[i] == '1' ? 0 : 1);
+         flag = !flag;
       }
-      for(int i = 1; i<n; i++){
-         maxi = max(maxi, v[i-1] - v[i]);
-      }
+      flag = 0;
       for(int i = 0; i<n;i++){
-         maxi = max(maxi, v[i]-v[0]);
+         if(flag) aux2[i] = (s1[i] == '1' ? 0 : 1);
+         else aux2[i] = (s2[i] == '1' ? 0 : 1);
+         flag = !flag;
       }
-      for(int i = 0; i<n; i++){
-         maxi =  max(maxi,v[n-1] - v[i]);
+      int mid2 = n/2;
+      int mid1 = (n&1) ? (n/2) + 1 : n/2;
+      if(accumulate(aux2.begin(), aux2.end(),0) >= mid2 && accumulate(aux1.begin(),aux1.end(),0) >= mid1){
+         cout<<"YES"<<endl;
+      }else{
+         cout<<"NO"<<endl;
       }
-      cout<<maxi<<endl;
-		
-	}
-    return 0;
+   }
+   return 0;
 }
 
 //                   :-==-.                     .:..                   

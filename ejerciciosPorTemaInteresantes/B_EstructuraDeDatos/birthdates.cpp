@@ -42,7 +42,6 @@ signed main (){
 
    cout<<v[0].first<<endl<<v[n-1].first<<endl;
 
-
    return 0;
 }
 
