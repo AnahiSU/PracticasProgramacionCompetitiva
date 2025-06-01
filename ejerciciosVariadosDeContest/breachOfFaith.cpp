@@ -14,44 +14,40 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n; cin>>n;
+      vector<int>v(2*n);
+      for(int i =0; i<2*n;i++){
+         cin>>v[i];
       }
+      sort(v.rbegin(),v.rend());
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+
+      int sum = 0;
+      vector<int>res(2*n+1);
+      int j = 0;
+      for(int i = 0; i<2*n+1;i+=2){
+         res[i] = v[j];
+         j++;
+         sum += res[i];
+      } 
+      j = 2*n-1; 
+      for(int i = 1;i<2*n+1;i+=2){
+         if(i==2*n-1) break;
+         res[i] = v[j];
+         j--;
+         sum -= res[i];
+         
       }
+      res[2*n-1] = sum;
+      for(int i : res){
+         cout<<i<<' '; 
+      }
+      cout<<endl;
    }
    return 0;
 }

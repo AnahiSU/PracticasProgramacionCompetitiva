@@ -14,44 +14,49 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n,m; cin>>n>>m;
+      vector<int>a(n),b(m);
+      for(int i = 0 ; i<n;i++){
+         cin>>a[i];
+      }
+      for(int i = 0 ; i<m; i++){
+         cin>>b[i];
+      }
+      
+      vector<int>f(m), r(m);
+      int j = 0;
+      for(int i = 0 ; i<m; i++){
+         while(j<n && a[j] < b[i]) j++;
+         f[i] = j;
+         j++; 
+      }
+      j = n-1;
+      for(int i = m-1;i>=0; i--){
+         while(j>=0 && a[j]<b[i]) j--;
+         r[i] = j;
+         j--;
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      if(f[m-1] < n){
+         cout<<0<<endl;
+         continue;
       }
+      int res= 1e9+6;
+      for(int i = 0 ; i<m;i++){
+         int ant = (i == 0) ? -1 : f[i-1];
+         int sig = (i == m-1) ? n : r[i+1];
+         if(ant < sig){
+            res = min(res,b[i]);
+         }
+      }
+      if(res != 1e9+6) cout<<res<<endl;
+      else cout<<-1<<endl;
+
    }
    return 0;
 }

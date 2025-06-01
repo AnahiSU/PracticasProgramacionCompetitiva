@@ -14,43 +14,37 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
+      int n,k; cin>>n>>k;
       string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int cero=0,uno=0;
+      for(int i = 0; i<n;i++){
+         if(s[i] == '0') cero++;
+         else uno++;
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      int k2 = k;
+      bool flag = 0;
+      for(int i = 0; i<k2;i++){
+         if(cero>uno && cero>=2){
+            cero-=2;
+            k--;
+         }else if(uno>=2){
+            uno-=2;
+            k--;
+         }else{
+            cout<<"NO"<<endl;
+            flag = 1;
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      } 
+      if(!flag){
+         if(cero==uno) cout<<"YES"<<endl;
+         
+         else cout<<"NO"<<endl;
+
       }
    }
    return 0;

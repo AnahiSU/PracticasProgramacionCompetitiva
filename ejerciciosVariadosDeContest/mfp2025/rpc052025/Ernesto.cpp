@@ -13,17 +13,17 @@
 #define sz(v) (int)v.size()
 
 using namespace std;
+map<string,int>v;
+map<string,int>ls;
+map<int,string> names;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
+void dfs(int u, vector<bool>&visi, vector<vector<int>>&g,vector<int>&comp){
+   visi[u] = 1;
+   comp.push_back(u);
+   
+   for(int i : g[u]){
+      if(!visi[i]){
+         dfs(i,visi,g,comp);
       }
    }
 }
@@ -31,28 +31,55 @@ void verif(string&s, int pos, set<int>&ls, bool prim){
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
+   int caseAS = 1;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n,m; cin>>n>>m;
+      int cont =0;
+      
+      for(int i = 0; i<n;i++){
+         string s; cin>>s;
+         int x; cin>>x;
+         ls[s] =cont;
+         names[cont] = s;
+         v[s] = x;
+         cont++;
+      }
+      vector<vector<int>>g(n);
+      for(int i = 0; i<m;i++){
+         string a,b; cin>>a>>b;
+         int nodA = ls[a];
+         int nodB = ls[b];
+         g[nodA].push_back(nodB);
+         g[nodB].push_back(nodA);
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      vector<bool>visi(n);
+      vector<string>res;
+
+      for(int i = 0; i<n;i++){
+         if(!visi[i]){
+            vector<int>comp;
+            int may = -1;
+            string mayor = "";
+            dfs(i,visi,g,comp);
+            for(int j = 0; j<sz(comp);j++){
+               if(v[names[comp[j]]] > may){
+                  may = v[names[comp[j]]];
+                  mayor = names[comp[j]];
+               }
+            }
+            res.push_back(mayor);
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
       }
+      cout<<"Case "<<caseAS<<":"<<endl;
+      srt(res);
+      for(string s : res){
+         cout<<s<<endl;
+      }
+      ls.clear();v.clear();names.clear();
+      caseAS++;
    }
+
    return 0;
 }
 

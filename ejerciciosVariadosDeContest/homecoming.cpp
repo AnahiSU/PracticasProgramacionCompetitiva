@@ -14,46 +14,70 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
+   int k; cin>>k;
+   while(k--){
+      int a,b,c; cin>>a>>b>>c;
       string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      string res = "";
+      char ant =s[0];
+      vector<int>frec;
+      
+      int cont = 1;
+      res.push_back(s[0]);
+      for(int i = 1; i<sz(s);i++){
+         if(s[i]!=ant){
+            frec.push_back(cont);
+            res.push_back(s[i]);
+            cont = 1;
+         }else{
+            cont++;
          }
+         ant = s[i];
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      frec.push_back(cont); 
+      if(sz(res) <=2){
+         if(sz(res) == 2){
+            int act = res[0] == 'A' ? a:b;
+            if(act <= c){
+               cout<<1<<endl;
+            }else{
+               cout<<frec[0]+1<<endl;
+            }
+         }else{
+            int act = res[0] == 'A' ? a:b;
+            if(act<=c){
+               cout<<1<<endl;
+            }else{
+               cout<<frec[0]<<endl;
+            }
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      }else{
+        
+         int sumM = 0;
+         for(int i = 0; i<sz(res);i++){
+            sumM += (res[i] == 'A' ? a:b);
+         }
+         int ind = 0;
+         for(int i = 0; i<sz(res);i++){
+            int act = (res[i] == 'A' ? a:b);
+            if(sumM - act <= c){
+               ind = i;
+               break;
+            }else{
+               sumM-=act;
+            }
+         }
+         int respuesta = 0;
+         for(int i = 0 ;i<=ind;i++){
+            respuesta+=frec[i];
+         }
+         cout<<respuesta+1<<endl;
       }
    }
-   return 0;
+      return 0;
 }
 
 //                   :-==-.                     .:..                   

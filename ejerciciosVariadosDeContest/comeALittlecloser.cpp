@@ -14,44 +14,45 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n; cin>>n;
+      vector<pair<int,int>>v(n);
+      multiset<int> mulX;
+      multiset<int> mulY;
+      for(int i = 0; i<n;i++){
+         cin>>v[i].first>>v[i].second;
+         mulX.insert(v[i].first);
+         mulY.insert(v[i].second);
       }
+      if(n==1){
+         cout<<1<<endl;
+         continue;
+      }
+      int res = 1e18;
+      for(int i = 0; i<n;i++){
+         int x = v[i].first;
+         int y = v[i].second;
+         mulX.erase(mulX.find(x));
+         mulY.erase(mulY.find(y));
+         int minX = *mulX.begin();
+         int minY = *mulY.begin();
+         int maxX = *mulX.rbegin();
+         int maxY = *mulY.rbegin();
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+         int ar = ((maxX - minX)+1) * ((maxY-minY)+1);
+         if(ar == n-1){
+            res = min(ar + min((maxX-minX+1),(maxY-minY+1)),res);
+         }else{
+            res = min(ar,res);
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+         mulX.insert(x);
+         mulY.insert(y);
       }
+      cout<<res<<endl;
    }
    return 0;
 }

@@ -14,45 +14,33 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+   int n,x; cin>>n>>x;
+   vector<pair<int,int>>v(n);
+   for(int i = 0; i<n;i++){
+      int a; cin>>a;
+      v[i].first = a;
+      v[i].second = i;
+   }
+   srt(v);
+   int i = 0, j = n-1;
+   while(i<j){
+      if(v[i].first + v[j].first < x){
+         i++;
+      }else if(v[i].first+v[j].first > x){
+         j--;   
+      }else{
+         break;
       }
    }
+   if(i==j){
+      cout<<"IMPOSSIBLE"<<endl;
+   }else{
+      cout<<v[i].second+1<<' '<<v[j].second+1<<endl;
+   }
+
    return 0;
 }
 

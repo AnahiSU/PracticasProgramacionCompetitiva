@@ -14,44 +14,29 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int n,k; cin>>n>>k;
+      vector<int>v(n);
+      for(int i = 0; i<n;i++) cin>>v[i];
+      srt(v);
+      int i=0,j=n-1,cont=0;
+      while(i<j){
+         int sum = v[i]+v[j];
+         if(sum == k){
+            cont++;
+            i++;
+            j--;
+         }else if(sum < k){
+            i++;
+         }else{
+            j--;
          }
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+      cout<<cont<<endl;
    }
    return 0;
 }

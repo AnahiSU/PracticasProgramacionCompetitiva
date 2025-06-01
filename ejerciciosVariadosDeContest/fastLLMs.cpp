@@ -14,45 +14,40 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
+int MOD = 1e9+7;
+
+int power(int x, int y, int p) { 
+    int res = 1;     
+    x = x % p;  
+    if (x == 0) return 0; 
+    while (y > 0){  
+        if (y & 1) 
+            res = (res*x) % p; 
+
+        y = y>>1;  
+        x = (x*x) % p; 
+    } 
+    return res; 
+}
+
+int inv(int a) {
+  return a <= 1 ? a : MOD - (long long)(MOD/a) * inv(MOD % a) % MOD;
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int n,ind; cin>>n>>ind;
+   vector<int>v(n);
+   for(int i = 0; i<n;i++)cin>>v[i];
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+   int sum = 0;
+   for(int i = 0; i<n;i++){
+      sum += power(2LL,v[i],MOD);
+      sum %= MOD;
    }
+   int num = power(2LL,v[ind-1],MOD);
+   cout<<(int)((num*inv(sum)) % MOD)<<endl;
+
    return 0;
 }
 

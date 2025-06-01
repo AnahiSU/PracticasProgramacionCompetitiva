@@ -14,43 +14,45 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
+      int n; cin>>n;
+      bool flag = 0;
       string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int indI=0,indD=0;
+
+      if(n == 1 || n==4){
+         cout<<"Yes"<<endl;
+         continue;
+      }
+      for(int i = 0; i<n;i++){
+         if(s[i] == '0'){
+            if(!flag) indI = i;
+            flag = 1;
+            
+         }
+      }
+      bool flag2 = 0;
+      for(int i = n-1; i>=0; i--){
+         if(s[i]=='0' && !flag2){
+            indD = i;
+            flag2 = 1;
          }
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      
+
+      if(flag){
+         if(indI - 1 == (n-1) - (indD +1) && indD + 1 -(indI-1) + 1 == ((indI-1)-2) * (indI-1) ){
+            cout<<"Yes"<<endl;
+         }else{
+            cout<<"No"<<endl;
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      }else{
+         cout<<"No"<<endl;
       }
    }
    return 0;

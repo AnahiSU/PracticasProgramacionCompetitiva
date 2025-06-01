@@ -14,43 +14,50 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int n; cin>>n;
+      vector<vector<int>>mat(n,vector<int>(n,0));
+      int mid = n&1 ? n/2 : (n/2)-1;
+      mat[mid][mid] = 0;
+      int ind = (n*n) -1;
+      int l = 0,r = n-1,t = 0,b = n-1;
+      while(t <= b && l <= r){
+         for(int i = r; i>= l;i--){
+            mat[t][i] = ind;
+            ind--;
+         }
+         t++;
+         
+         for(int i = t; i<=b;i++){
+            mat[i][l] = ind;
+            ind--;
+         }
+         l++;
+
+         if(t<=b){
+            for(int i = l; i<=r;i++){
+               mat[b][i] = ind;
+               ind--;
+            }
+            b--;
+         }
+         if(l<=r){
+            for(int i = b; i >= t; i--){
+               mat[i][r] = ind;
+               ind--;
+            }
+            r--;
          }
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      for(auto i : mat){
+         for(auto j : i){
+            cout<<j<<' ';
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+         cout<<endl;
       }
    }
    return 0;

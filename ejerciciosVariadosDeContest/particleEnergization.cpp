@@ -14,45 +14,48 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
+
+vector<int> find_divisors(int n) {
+   vector<int> v;
+   for (int i = 1; i * i <= n; i++) {
+      if (n % i == 0) {
+         if(i != 1)v.push_back(i);
+         int other = n / i;
+         if (other != i) { // case i * i = n
+            v.push_back(other);
          }
-         ls.erase(i);
       }
    }
+   return v;
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int y,k; cin>>y>>k;
+   vector<int> v = find_divisors(y);
+   srt(v);
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+   int x = 1;
+   int cont = 1;
+   for(int i = 0; i<sz(v) & k>=0;i++){
+      int dist = v[i] - x;
+      int saltos = dist/cont;
+      if(v[i] % cont == 0){
+         if(k<=saltos){
+            x += k*cont;
+            k = 0;
+         }else{
+            k-=saltos;
+            x = v[i];
+            cont = v[i];
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
       }
+   } 
+
+   if(k){
+      x+=cont*k;
    }
+   cout<<x<<endl;
    return 0;
 }
 

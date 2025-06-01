@@ -14,44 +14,40 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int n,m; cin>>n>>m;
+      vector<vector<int>>g(n);
+      for(int i = 0; i<m;i++){
+         int a,b; cin>>a>>b;
+         a--;b--;
+         g[a].push_back(b);
+         g[b].push_back(a);
+      }
+      int cent = 0;
+      for(int i = 0; i<n;i++){
+         bool found = 1;
+         int cont = 0;
+         if(sz(g[i]) == 1) continue;
+         for(int j : g[i]){
+            if(sz(g[j]) > 1){
+               cont++;
+            }
+         }
+         if(cont==sz(g[i])){
+            cent = i;
+            break;
          }
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+      int x = g[cent].size();
+      int aux = g[cent].back();
+      int y = sz(g[aux])-1;
+      cout<<x<<' '<<y<<endl;
+
    }
    return 0;
 }

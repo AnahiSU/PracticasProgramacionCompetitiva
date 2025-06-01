@@ -14,45 +14,61 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int n,m; cin>>n>>m;
+   vector<vector<int>>g(n);
+   for(int i = 0; i<m;i++){
+      int a,b; cin>>a>>b;
+      a--;b--;
+      g[a].push_back(b);
+      g[b].push_back(a);
+   }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+   queue<int>cola;
+   vector<int>dist(n);
+   vector<bool>visi(n);
+  
+   bool flag = 1;
+   vector<int>teams(n), parents(n);
+      for(int i = 0; i<n;i++){
+      if(!visi[i]){
+         visi[i] = 1;
+         cola.push(i);
+         dist[i] = 0;
+         teams[i] =1;
+         
+         while(!cola.empty()){
+            int act = cola.front();
+            cola.pop();
+            for(int i : g[act]){
+               if(!visi[i]){
+                   visi[i] = 1;
+                   parents[i] = act;
+                   dist[i] = dist[act]+1;
+                   teams[i] = (dist[i] & 1) ? 2 : 1;
+                   cola.push(i);
+
+               }else{
+                  if(teams[i] == teams[act]){
+                     flag = 0;
+                     break;
+                  }
+               }
+             }
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
       }
    }
+   if(!flag){
+      cout<<"IMPOSSIBLE"<<endl;
+   }else{
+      for(int i : teams){
+         cout<<i<<' ';
+      }
+      cout<<endl;
+   }
+
    return 0;
 }
 

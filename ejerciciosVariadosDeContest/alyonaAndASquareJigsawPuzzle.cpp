@@ -13,45 +13,32 @@
 #define sz(v) (int)v.size()
 
 using namespace std;
-
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
+set<int>ls;
+void preCalc(){
+   int niv = 1;
+   int sum = 1;
+   while(sum<=10000){
+      sum+= (niv*4) + 4;
+      ls.insert(sum);
+      niv+=2;
    }
+
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
+   preCalc();
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n; cin>>n;
+      int sum = 0,cont=1;
+      for(int i = 0; i<n;i++){
+         int x; cin>>x;
+         sum+=x;
+         if(ls.find(sum) != ls.end()) cont++;
       }
+      cout<<cont<<endl;
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
    }
    return 0;
 }

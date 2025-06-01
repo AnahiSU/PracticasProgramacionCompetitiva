@@ -1,5 +1,4 @@
 /*
-- Deja ir el pasado y camina hacia el futuro.
 - El trabajo duro supera al talento cuando el talento no trabaja duro.
 - Del fracaso se aprende, del éxito no mucho.
 - Para sentirse vivo se necesita una meta en la que trabajar.
@@ -14,44 +13,44 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+      int n; cin>>n;
+      vector<int>v(n);
+      for(int i = 0; i<n;i++) cin>>v[i];
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      vector<vector<int>>g(n);
+      for(int i = 0; i<n-1;i++){
+         int a,b; cin>>a>>b;a--;b--;
+         g[a].push_back(b);
+         g[b].push_back(a);
       }
+      vector<pair<int,int>> p(n);
+      p[0] = {v[0],-v[0]};
+      queue<int>cola;
+      cola.push(0);
+      vector<int>visi(n);
+      visi[0] = 1;
+
+      while(!cola.empty()){
+         int act = cola.front();
+         cola.pop();
+         for(int i : g[act]){
+            if(!visi[i]){
+               p[i].first = max(p[act].second + v[i],v[i]);
+               p[i].second = max(p[act].first - v[i],-v[i]);
+               visi[i] = 1;
+               cola.push(i);
+            }
+         }
+      }
+      for(auto i : p){
+         cout<<i.first<<' ';
+      }
+      cout<<endl;
    }
    return 0;
 }

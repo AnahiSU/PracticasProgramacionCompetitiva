@@ -14,45 +14,33 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
+void dfs(int &v, vector<bool>&visi,vector<vector<int>>&g, int&last){
+   if(!visi[v]){
+      visi[v] = 1;
+      for(int u : g[v]){
+         dfs(u,visi,g,last);
       }
+   }else{
+      last = v;
    }
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+   int n; cin>>n;
+   vector<vector<int>>g(n);
+   for(int i = 0;i<n;i++){
+      int a; cin>>a; a--;
+      g[i].push_back(a);
    }
+
+   for(int i = 0; i<n;i++){
+      vector<bool>visi(n);
+      int last = i;
+      dfs(i,visi,g,last);
+      cout<<last+1<<' ';
+   }
+   cout<<endl;
    return 0;
 }
 

@@ -14,44 +14,41 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
+int dir[2][4] = {{0, 0, 1,-1},{1,-1, 0, 0}};
+
+int floodfill(vector<vector<bool>>&visi, int x, int y, vector<vector<int>>&tab, int n, int m){
+   if(x < 0 || y < 0 || x >= n || y >= m || visi[x][y] ||tab[x][y] == 0) return 0;
+
+   visi[x][y] = 1;
+   int ret = tab[x][y];
+
+   for(int i = 0; i<4;i++){
+      ret+=floodfill(visi,x+dir[0][i], y+dir[1][i],tab,n,m);
    }
+   return ret;
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int n,m; cin>>n>>m;
+      vector<vector<int>> mat(n,vector<int>(m));
+      for(int i = 0; i<n;i++){
+         for(int j = 0; j<m;j++){
+            cin>>mat[i][j];
          }
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+      int res = 0;
+      vector<vector<bool>>visi(n,vector<bool>(m));
+      for(int i = 0; i<n;i++){
+         for(int j = 0; j<m;j++){
+            if(!visi[i][j]){
+               res = max(res,floodfill(visi,i,j,mat,n,m));
+            }
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
       }
+      cout<<res<<endl;
    }
    return 0;
 }

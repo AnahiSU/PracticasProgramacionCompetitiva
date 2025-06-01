@@ -8,51 +8,33 @@
 
 #define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-#define endl "\n"
+//#define endl "\n"
 #define int long long
 #define sz(v) (int)v.size()
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+   int n,t,k; cin>>n>>t>>k;
+   bool found = 0;
+   int l=1,r=n; 
+   int res;
+   while(r>l){
+      int mid = (l+r)/2;
+      cout<<"? "<<l<<' '<<mid<<endl;
+      cin>>res;
+      int ceros = mid-l + 1 - res;
+      if(ceros > k){
+         r = mid+1;
+      }else{
+         l = mid;
+         k -= ceros;
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
    }
+   cout<<"! "<<r<<endl;
    return 0;
 }
 

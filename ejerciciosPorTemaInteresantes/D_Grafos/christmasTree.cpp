@@ -14,45 +14,48 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int n,m; cin>>n>>m;
+   vector<int>v(n);
+   queue<int>cola;
+   map<int,int> dist;
+   set<int>visi;
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+   for(int i = 0; i<n;i++){
+      int a; cin>>a;
+      dist[a] = 0;
+      cola.push(a);
+      visi.insert(a);
+   }
+   vector<int>res;
+   int distR = 0;
+   while(!cola.empty()){
+      if(sz(res) == m) break;
+      int act = cola.front();
+      cola.pop();
+      visi.insert(act);
+      if(dist[act] != 0){
+         distR+=dist[act];
+         res.push_back(act);
+      }   
+      if(visi.find(act-1) == visi.end()){
+         cola.push(act-1);
+         dist[act-1] = dist[act]+1;
+         visi.insert(act-1);
+      }
+      if(visi.find(act+1) == visi.end()){
+         cola.push(act+1);
+         dist[act+1] = dist[act]+1;
+         visi.insert(act+1);
       }
    }
+   cout<<distR<<endl;
+   for(int i : res){
+      cout<<i<<' ';
+   }
+   cout<<endl;
    return 0;
 }
 

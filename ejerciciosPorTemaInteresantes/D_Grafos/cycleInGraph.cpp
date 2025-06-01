@@ -13,46 +13,54 @@
 #define sz(v) (int)v.size()
 
 using namespace std;
-
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
+vector<int>res;
+void dfs(int v,vector<vector<int>>&g,vector<bool>&visi){
+   visi[v] = 1;
+   res.push_back(v);
+   for(int i : g[v]){
+      if(!visi[i]){
+         dfs(i,g,visi);
       }
    }
 }
-
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+   int n,m,k; cin>>n>>m>>k;
+   vector<vector<int>>v(n);
+   for(int i = 0; i<m;i++){
+      int a,b; cin>>a>>b;
+      a--;b--;
+      v[a].push_back(b);
+      v[b].push_back(a);
+   }
+   vector<bool>visi(n);
+   for(int i = 0; i<n;i++){
+       if(!visi[i]) dfs(i,v,visi);
+   }
+    
+   int ind = -1;
+   for(int i= 0; i<sz(res);i++){
+      int x = res[i];
+      for(int j = 0; j<sz(v[x]);j++){
+         if(v[x][j] == res[n-1]){
+            ind = i;
+            break;
          }
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      if(ind != -1){
+            break;
       }
    }
+
+   cout<<n-ind<<endl; 
+   for(int i = ind ;i<sz(res);i++){
+      cout<<res[i]+1<<' ';
+   }
+   cout<<endl;
+   for(int i : res){
+      cout<<i<<' ';
+   }
+   cout<<endl;
    return 0;
 }
 

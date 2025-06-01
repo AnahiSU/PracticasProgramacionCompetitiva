@@ -14,45 +14,51 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
+void dfs(int &u,vector<bool>&visi,vector<vector<int>>&g, vector<int>&comp){
+   visi[u] = 1;
+   comp.push_back(u);
+   for(int i : g[u]){
+      if(!visi[i]){
+         dfs(i,visi,g,comp);
       }
    }
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int n,m; cin>>n>>m;
+   vector<vector<int>>g(n);
+   vector<int>cost(n);
+   
+   for(int i = 0; i<n;i++) cin>>cost[i];
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+   for(int i = 0; i<m;i++){
+      int a,b; cin>>a>>b;
+      a--;b--;
+      g[a].push_back(b);
+      g[b].push_back(a);
+   }
+   
+   vector<bool>visi(n);
+   vector<int>res;
+   for(int i = 0; i<n;i++){
+      if(!visi[i]){
+         vector<int>comp;
+         dfs(i,visi,g,comp);
+         int mini = 1e9;
+         for(int j = 0; j<sz(comp); j++){
+            mini = min(mini,cost[comp[j]]);
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+         res.push_back(mini);
       }
    }
+   int resSum = 0;
+   for(int i : res){
+      resSum += i;
+   }
+   cout<<resSum<<endl;
+
+   
    return 0;
 }
 

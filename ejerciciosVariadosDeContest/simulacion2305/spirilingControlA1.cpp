@@ -14,45 +14,71 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
+   int numb = 1;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
+      int n,k; cin>>n>>k;
+      int tam = n*n;
+      int ind = 1;
+      vector<vector<int>>mat(n,vector<int>(n,0));
+      int l = 0,r = n-1,t = 0,b = n-1;
+      while(t <= b && l <= r){
+         for(int i = l; i<= r;i++){
+            mat[t][i] = ind;
+            ind++;
+         }
+         t++;
+         
+         for(int i = t; i<=b;i++){
+            mat[i][r] = ind;
+            ind++;
+         }
+         r--;
+
+         if(t<=b){
+            for(int i = r; i>=l;i--){
+               mat[b][i] = ind;
+               ind++;
+            }
+            b--;
+         }
+         if(l<=r){
+            for(int i = b; i >= t; i--){
+               mat[i][l] = ind;
+               ind++;
+            }
+            l++;
          }
       }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+     int cont = 0, i = 0, j= 0;
+      bool flag = 1;
+      vector<int>res;
+      while(mat[i][j] != tam){
+         if(flag){
+            i++;
+         }else{
+            j++;
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+         res.push_back(mat[i][j]);
+         cont++;
+         flag = !flag;
       }
+      cout<<"Case #"<<numb<<": ";
+      if(cont <= k){
+         cout<<sz(res)+1<<endl;
+         for(int i =0; i<sz(res)-1;i+=2){
+            cout<<res[i]<<' '<<res[i+1]<<endl;
+         }
+      }else{
+         cout<<"IMPOSSIBLE"<<endl;
+      }
+      numb++;
    }
+
    return 0;
 }
 

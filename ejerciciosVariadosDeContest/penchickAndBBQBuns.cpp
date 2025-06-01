@@ -14,43 +14,45 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+      int n; cin>>n;
+      if(n&1){
+         int sq = sqrt(n);
+         if(n >= 27){
+            cout<<1<<' ';
+            int cont = 3;
+            for(int i = 0; i<4;i++){
+               cout<<cont<<' '<<cont<<' ';
+               cont++;
+            }
+            cout<<1<<' '<<2<<' ';
+            for(int i = 0; i<7;i++){
+               cout<<cont<<' '<<cont<<' ';
+               cont++;
+            }
+            cout<<1<<' '<<2<<' ';
+            for(int i = 27;i<n;i+=2){
+               cout<<cont<<' '<<cont<<' ';
+               cont++;
+               
+            }
+            cout<<endl;
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+         }else{
+            cout<<-1<<endl;   
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      }else{
+         
+         int cont = 1;
+         for(int i = 0; i<n/2;i++){
+            cout<<cont<<' '<<cont<<' ';
+            cont++;
+         }
+         cout<<endl;
       }
    }
    return 0;

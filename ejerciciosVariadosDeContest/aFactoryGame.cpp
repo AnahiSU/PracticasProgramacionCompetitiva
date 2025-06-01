@@ -14,44 +14,68 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
+bool cmp(pair<pair<int,int>,int> a, pair<pair<int,int>,int> b){
+   if(a.first.first > b.first.first){
+      return false;
+   }else if(a.first.first < b.first.first){
+      return true;
+   }else if(a.first.second > b.first.second){
+      return false;
+   }else if(a.first.second < b.first.second){
+      return true;   
+   }else if(a.second > b.second){
+      return false;
+   }else if(a.second < b.second){
+      return true;
+   }else{
+      return false;
    }
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   int n; cin>>n;
+   vector<pair<pair<int,int>,int>>v(n);
+   for(int i=0; i<n;i++){
+      int a,b,c;cin>>a>>b>>c;
+      v[i] = {{a,b},c};
+   }
+   sort(v.begin(),v.end(),cmp);
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+   int cont2=0,cont3=0;
+   int ant1 = -1, ant2=-1,ant3=-1;
+   vector<pair<pair<int,int>,int>>res;
+   vector<pair<pair<int,int>,int>> v2;
+   pair<pair<int,int>,int> ant;
+   for(int i = 0; i<n;i++){
+      if(v[i] == ant) continue;
+      ant = v[i];
+      v2.push_back(v[i]);
+   }
+   for(int i = 0;i<sz(v2);i++){
+      if(v2[i].first.first != ant1){
+         res.push_back({{ant1,cont2},cont3});
+         cont2=1;cont3=1;
+
+         ant1 = v2[i].first.first;
+         ant2 = v2[i].first.second;
+         continue;
+      }else{
+         cont3++;
       }
+      if(v2[i].first.second != ant2){
+         cont2++;
+      }
+      ant1 = v2[i].first.first;
+      ant2 = v2[i].first.second;
+
+      
+   }
+   res.push_back({{ant1,cont2},cont3});
+
+   for(int i = 0; i<sz(res);i++){
+      if(i == 0) continue;
+      cout<<res[i].first.first<<' '<<res[i].first.second<<' '<<res[i].second<<endl;
    }
    return 0;
 }

@@ -14,45 +14,39 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
+struct note {
+   int a, b, c, d, e;
+};
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+   int n;
+   cin >> n;
+   vector<note> v(n);
+   for (int i = 0; i < n; i++) {
+      cin >> v[i].a >> v[i].b >> v[i].c >> v[i].d >> v[i].e;
    }
+   int ans1, ans2, ans3;
+   ans1 = ans2 = ans3 = 0;
+   ans3++;
+   for (int i = 1; i < n; i++) {
+      bool ok1, ok2, ok3, ok4, ok5;
+      ok1 = ok2 = ok3 = ok4 = ok5 = true;
+      for (int j = 0; j < i; j++) {
+         ok1 = (v[i].a > v[j].a) && ok1;
+         ok2 = (v[i].b > v[j].b) && ok2;
+         ok3 = (v[i].c > v[j].c) && ok3;
+         ok4 = (v[i].d > v[j].d) && ok4;
+         ok5 = (v[i].e > v[j].e) && ok5;
+      }
+      int total = ok1 + ok2 + ok3 + ok4 + ok5;
+      if (total == 3) ans1++;
+      if (total == 4) ans2++;
+      if (total == 5) ans3++;
+   }
+   cout << ans1 << ' ' << ans2 << ' ' << ans3 << endl;
+   
    return 0;
 }
 

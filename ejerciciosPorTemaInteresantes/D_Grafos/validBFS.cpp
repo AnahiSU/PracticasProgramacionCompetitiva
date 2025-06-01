@@ -14,45 +14,79 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
+void bfs(int v, vector<bool>&visi, vector<int>&comp, vector<set<int>>&g){
+   queue<int>cola;
+   cola.push(v);
+   visi[v] =1;
+   comp.push_back(v);
+   while(!cola.empty()){
+      int act = cola.front();
+      cola.pop();
+      for(int i : g[act]){
+         
+         if(!visi[i]){
+            visi[i] =1;
+            cola.push(i);
+            comp.push_back(i);
          }
-         ls.erase(i);
       }
    }
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+   int n; cin>>n;
+   vector<set<int>>g(n);
+   for(int i = 0; i<n-1;i++){
+      int a,b; cin>>a>>b;
+      a--;b--;
+      g[a].insert(b);
+      g[b].insert(a);
+   }
+   vector<int>v(n);
+   int i = 0, j=1;
+   for(int i = 0; i<n;i++) cin>>v[i];
+   vector<set<int>>copy(n);
+   while(i<n && j<n){
+      int k = sz(g[v[i]-1])-sz(copy[v[i]-1]);
+      while(k-- && j<n){
+         copy[v[i]-1].insert(v[j]-1);
+         copy[v[j]-1].insert(v[i]-1);
+         j++;
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
+      i++;
+   }
+   /*
+   for(int i = 0; i<n;i++){
+      cout<<i<<"-> ";
+      for(int j : g[i]){
+         cout<<j<<' ';
+      }
+      cout<<endl;
+   }
+   for(int i = 0; i<n;i++){
+      cout<<i<<"-> ";
+      for(int j : copy[i]){
+         cout<<j<<' ';
+      }
+      cout<<endl;
+   }*/
+   vector<bool>visi(n);
+   vector<int>comp;
+   bfs(0,visi,comp,g);
+   visi.assign(n,false);
+   vector<int>comp2;
+   bfs(0,visi,comp2,copy);
+   bool flag = 1;
+   for(int i = 0; i<n;i++){
+      if(comp[i] != comp2[i]){
+         flag = 0;
+         break;
       }
    }
+
+   if(flag && v[0] == 1) cout<<"Yes"<<endl;
+   else cout<<"No"<<endl;
    return 0;
 }
 

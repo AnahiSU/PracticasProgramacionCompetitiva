@@ -14,45 +14,45 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
-}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
-   int c; cin>>c;
-   while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
-      }
+   string s;
+   getline(cin, s);
+   string list;
+   getline(cin,list);
 
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
+   list = list.substr(1);
+   list.pop_back();
+
+   set<char>ls(list.begin(),list.end());
+
+   string res = "";
+   for(int i = 0; i<sz(s);i++){
+      if(ls.find(s[i]) == ls.end()){
+         if(res.empty()) res.push_back(s[i]);
+         else{
+            if(res.back() == s[i]){
+               continue;
+            }else{
+               res.push_back(s[i]);
+            }
          }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
       }
+   } 
+
+   int ind1 = 0, ind2 = sz(res)-1;
+   while(res[ind1] == ' '){
+      ind1++;
    }
+   while(res[ind2] == ' '){
+      ind2--;
+   }
+
+   
+   cout<<res.substr(ind1, ind2-ind1+1)<<endl;
+
+   //cout<<list.size()<<endl;
    return 0;
 }
 

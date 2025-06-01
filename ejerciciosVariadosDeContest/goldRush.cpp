@@ -14,44 +14,26 @@
 
 using namespace std;
 
-void verif(string&s, int pos, set<int>&ls, bool prim){
-   int n = sz(s);
-   for(int i = max(0LL,pos-3);i<min(pos+3,n-3);i++){
-     
-      if(s.substr(i,4) == "1100"){ 
-         if(prim){
-            ls.insert(i);
-            continue;
-         }
-         ls.erase(i);
-      }
-   }
+bool buscar(int n,int m){
+   if(n<m) return 0;
+   if(n==m) return 1;
+   if(n%3!=0) return 0; 
+   return buscar(n/3,m) || buscar(2*(n/3),m);
 }
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
    while(c--){
-      string s; cin>>s;
-      set<int>ls;
-      for(int i = 0; i<sz(s)-3;i++){
-         if(s.substr(i,4) == "1100"){
-            ls.insert(i);   
-         }
+      int n,m; cin>>n>>m;
+      bool res = 0;
+      if(n<m){
+         res = 0;
+      }else{
+         res = buscar(n,m);  
       }
-
-      int q; cin>>q;
-      while(q--){
-         int n; char v; cin>>n>>v;
-         n--;
-         if(s[n] != v){
-            verif(s,n,ls,0);
-            s[n] = v;
-            verif(s,n,ls,1);
-         }
-         if(ls.empty()) cout<<"NO"<<endl;
-         else cout<<"YES"<<endl;
-      }
+      if(res) cout<<"YES"<<endl;
+      else cout<<"NO"<<endl;
    }
    return 0;
 }
