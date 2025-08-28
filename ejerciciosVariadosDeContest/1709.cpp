@@ -13,72 +13,66 @@
 #define sz(v) (int)v.size()
 
 using namespace std;
-
+vector<pair<int,int>>moves;
+void bubbleSort(vector<int>& arr, int num) {
+    int n = sz(arr);
+    bool swapped;
+  
+    for (int i = 0; i < n - 1; i++) {
+      swapped = false;
+      for (int j = 0; j < n - i - 1; j++) {
+         if (arr[j] > arr[j + 1]){
+            moves.push_back({num,j+1});
+            swap(arr[j], arr[j + 1]);
+            swapped = true;
+         }
+      }
+      if (!swapped) break;
+    }
+}
 
 signed main (){
    std::ios::sync_with_stdio(false);cin.tie(0);
    int c; cin>>c;
-   int numb = 1;
    while(c--){
-      int n,k; cin>>n>>k;
-      int tam = n*n;
-      int ind = 1;
-      vector<vector<int>>mat(n,vector<int>(n,0));
-      int l = 0,r = n-1,t = 0,b = n-1;
-      while(t <= b && l <= r){
-         for(int i = l; i<= r;i++){
-            mat[t][i] = ind;
-            ind++;
-         }
-         t++;
-         
-         for(int i = t; i<=b;i++){
-            mat[i][r] = ind;
-            ind++;
-         }
-         r--;
+      int n; cin>>n;
+      vector<int>v1(n),v2(n),aux1,aux2;
+      for(int i = 0; i<n;i++) cin>>v1[i];
+      for(int i = 0; i<n;i++) cin>>v2[i];
+      aux1 = v1;
+      aux2 = v2;
 
-         if(t<=b){
-            for(int i = r; i>=l;i--){
-               mat[b][i] = ind;
-               ind++;
-            }
-            b--;
-         }
-         if(l<=r){
-            for(int i = b; i >= t; i--){
-               mat[i][l] = ind;
-               ind++;
-            }
-            l++;
+      bubbleSort(v1,1);
+      bubbleSort(v2,2);
+      for(int i = 0; i<n;i++){
+         if(v1[i] > v2[i]) {
+            swap(v1[i],v2[i]);
+            moves.push_back({3,i+1});
          }
       }
+      vector<pair<int,int>>moves2;
+      moves2 = moves;
 
-     int cont = 0, i = 0, j= 0;
-      bool flag = 1;
-      vector<int>res;
-      while(mat[i][j] != tam){
-         if(flag){
-            i++;
-         }else{
-            j++;
+      moves.clear();
+      
+      for(int i = 0; i<n;i++){
+         if(aux1[i] > aux2[i]) {
+            swap(aux1[i],aux2[i]);
+            moves.push_back({3,i+1});
          }
-         res.push_back(mat[i][j]);
-         cont++;
-         flag = !flag;
       }
-      cout<<"Case #"<<numb<<": ";
-      if(cont <= k){
-         cout<<sz(res)+1<<endl;
-         for(int i =0; i<sz(res)-1;i+=2){
-            cout<<res[i]<<' '<<res[i+1]<<endl;
-         }
-      }else{
-         cout<<"IMPOSSIBLE"<<endl;
+      bubbleSort(aux1,1);
+      bubbleSort(aux2,2);
+
+      moves = (sz(moves) < sz(moves2)) ? moves : moves2;
+
+      cout<<sz(moves)<<endl;
+      for(auto i : moves){
+         cout<<i.first<<' '<<i.second<<endl;
       }
-      numb++;
+      moves.clear();
+
    }
-
    return 0;
 }
 

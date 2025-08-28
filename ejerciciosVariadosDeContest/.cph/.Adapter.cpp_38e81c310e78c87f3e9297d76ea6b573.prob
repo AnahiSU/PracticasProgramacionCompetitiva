@@ -1,0 +1,1 @@
+{"name":"Local: Adapter","url":"c:\\codeThings\\aProgramacionCompetitiva\\ejerciciosVariadosDeContest\\Adapter.cpp","tests":[{"id":1751550228392,"input":"3 2\n1 2 3\n1 1 2","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\codeThings\\aProgramacionCompetitiva\\ejerciciosVariadosDeContest\\Adapter.cpp","group":"local","local":true}

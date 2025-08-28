@@ -34,7 +34,11 @@ void prim(map<ll,vector<pair<ll,ll>>> &mapa,vector<bool> &MST,vector<ll> &distan
         ll nodo=buscar(MST,distancias);
         assert(nodo >= 0);
         MST[nodo]=true;
-        
+        for(auto par:mapa[nodo]){
+            if(MST[par.first]==false && distancias[par.second]<distancias[par.first]){
+                distancias[par.first]=par.second;
+            }
+        }
    }
 }
 

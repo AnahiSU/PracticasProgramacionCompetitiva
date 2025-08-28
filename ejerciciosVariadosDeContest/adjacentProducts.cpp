@@ -1,34 +1,44 @@
 /*
-- Science is knowledge which we understand so well
-  that we can teach it to a computer; and if we don’t
-  fully understand something, it is an art to deal with it.
+- Deja ir el pasado y camina hacia el futuro.
 - El trabajo duro supera al talento cuando el talento no trabaja duro.
-- Los desafios son los que hacen la vida interesante y superarlos es
-  lo que hace a la vida significativa.
+- Del fracaso se aprende, del éxito no mucho.
 - Para sentirse vivo se necesita una meta en la que trabajar.
+- ¡Demonios Rocky! No hay ningún mañana.
 */
-    
-typedef long long ll;
-#define srt(a) sort((a).begin(),(a).end());
-#define srtR(a) sort((a).rbegin(),(a).rend());
-    
+
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
+#define endl "\n"
+#define ll long long
+#define sz(v) (int)v.size()
+
 using namespace std;
-    
+
+
 signed main (){
-    ios::sync_with_stdio(false);cin.tie(0);
-    int n; cin>>n;
-    int num;
-    cin>>num;
-    n--;
-    while(n--){
-        int a; cin>>a;
-        cout<<a*num<<" ";
-        num = a;
-    }
-    cout<<endl;
-  
-    return 0;
+   ll n,tam;
+   cin>>n>>tam;
+   vector<vector<ll>> matriz(n,vector<ll>(n));
+   for(ll i=0;i<n;i++){
+      for(ll j=0;j<n;j++){
+         cin>>matriz[i][j];
+      }
+   }
+   ll areas=0;
+   for(ll i=0;i<n;i++){
+      for(ll j=0;j<n;j++){
+         ll limite1=i+tam-1;
+         ll limite2=j+tam-1;
+         if((limite1<n) && (limite2<n)){
+            if((matriz[i+tam-1][j+tam-1]==matriz[i][j]) && (matriz[i+tam-1][j+tam-1]==matriz[i+tam-1][j]) && (matriz[i+tam-1][j+tam-1]==matriz[i][j+tam-1])){ 
+               areas++;
+            }
+         }
+         
+      }
+   }
+   cout<<areas;
+   return 0;
 }
 
 //                   :-==-.                     .:..                   
@@ -42,9 +52,10 @@ signed main (){
 //                =. =@@@*=+@%            :%@##@@@+  .+                
 //                + -@@@@.  #@:  :-----   *@=  +@@@+  +                
 //               .+ #@@@@#+*@%.  *@@@@%.  +@#:-#@@@@: =.               
-//               .=  @@@@@@@@+    .=*:     :@@@@@@@@= -:                             
+//               .=  @@@@@@@@+    .=*:     :@@@@@@@@= -:                 
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
-//                +.---:.                     .----- .=                                
+//                +.---:.                     .----- .=               
 //                 :=                               +.                 
 //                    :=-.                     .-=:                                         
 //                           .:-----------:.   
+

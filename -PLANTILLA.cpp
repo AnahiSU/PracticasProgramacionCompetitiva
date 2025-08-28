@@ -1,5 +1,5 @@
 /*
-- Deja ir el pasado y camina hacia el futuro.
+- Siempre de frente.
 - El trabajo duro supera al talento cuando el talento no trabaja duro.
 - Del fracaso se aprende, del éxito no mucho.
 - Para sentirse vivo se necesita una meta en la que trabajar.

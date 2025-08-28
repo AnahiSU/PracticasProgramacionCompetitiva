@@ -1,36 +1,43 @@
 /*
--Si todos aceptaran el primer "no", el mundo sería un gran silencio.
+- Siempre de frente.
 - El trabajo duro supera al talento cuando el talento no trabaja duro.
-- Los desafios son los que hacen la vida interesante y superarlos es
-lo que hace a la vida significativa.
+- Del fracaso se aprende, del éxito no mucho.
 - Para sentirse vivo se necesita una meta en la que trabajar.
+- ¡Demonios Rocky! No hay ningún mañana.
 */
-    
-typedef long long ll;
-#define srt(a) sort(a.begin(),a.end());
-    
+
+#define srt(a) sort(a.begin(),a.end())
 #include <bits/stdc++.h>
-    
+#define endl "\n"
+#define int long long
+#define sz(v) (int)v.size()
+
 using namespace std;
+
+bool cmp (pair<int,int>a, pair<int,int>b){
+   return (a.first - a.second > b.first - b.second);
+      
+}
+
 signed main (){
-    std::ios::sync_with_stdio(false);cin.tie(0);
-    int c; cin>>c;
-    vector<pair<int, int>>v;
-    while(c--){
-        int a,b; cin>>a>>b;
-        v.push_back(make_pair(a,b));
-    }
-        srt(v);
-        int cont = v[0].first; int act = v[0].first;
-        for(int i = 0; i<v.size();i++){
-            cont += abs(v[i].first-act);
-            act += v[i].first-act;
-            act = abs(act-v[i].second);
-        }
-        cout<<cont;
-    
-  
-  return 0;
+   std::ios::sync_with_stdio(false);cin.tie(0);
+   int n; cin>>n;
+   vector<pair<int,int>>v(n);
+   for(int i = 0; i<n;i++) cin>>v[i].first >> v[i].second;
+
+   sort(v.begin(),v.end(),cmp);
+
+   int sum = 0;
+   for(int i = 0; i<n-1;i++){
+      int aa = v[i+1].first - (v[i].first - v[i].second);
+      sum += max(aa,0LL);
+      v[i+1].first = max(v[i].first - v[i].second, v[i+1].first);
+   }
+   sum+=v[0].first;
+
+   cout<<sum<<endl;
+
+   return 0;
 }
 
 //                   :-==-.                     .:..                   
@@ -44,9 +51,10 @@ signed main (){
 //                =. =@@@*=+@%            :%@##@@@+  .+                
 //                + -@@@@.  #@:  :-----   *@=  +@@@+  +                
 //               .+ #@@@@#+*@%.  *@@@@%.  +@#:-#@@@@: =.               
-//               .=  @@@@@@@@+    .=*:     :@@@@@@@@= -:                             
+//               .=  @@@@@@@@+    .=*:     :@@@@@@@@= -:                 
 //                + :**%@%*:     .-=+--     :#@@%**+  +                
-//                +.---:.                     .----- .=                                
+//                +.---:.                     .----- .=               
 //                 :=                               +.                 
 //                    :=-.                     .-=:                                         
 //                           .:-----------:.   
+
